@@ -1,0 +1,61 @@
+html{
+  font-family: "Essays 1743", Palatino, "Palatino Linotype", "Book Antiqua",    Georgia, "Times New Roman", serif;
+  background-image: url("images/blue-texture.jpg");
+  background-repeat:repeat;
+}
+
+h2 {
+  font-weight: bolder;
+  text-transform: uppercase;
+  text-shadow: 0 0 1px #012;
+  color: #ccc;
+  font-size: 266.7%;
+  text-align: center;
+  width: 100%;
+  margin: 1.49em 0;
+}
+
+.instructions {
+  font-weight: normal;
+  text-transform: uppercase;
+  color: #ddd;
+
+  text-align: center;
+  width: 100%;
+  margin: 1.49em 0;
+}
+
+#taskForm {
+  text-align: center;
+}
+
+input[type="text"] {
+  width: 60%;
+  font-size: 30px;
+  padding: 10px;
+  border: solid 3px #FFFFFF;
+  vertical-align: middle;
+}
+
+input[type=submit] {
+  padding: 24px 20px;
+  border: 0px solid #fff;
+  box-shadow:0px 0px 0px 1px #777;
+  background-color: #fff;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+ul{
+  list-style-image: url("images/bullet.png");
+  list-style-position: inside;
+}
+
+.taskItem {
+  padding: 10px;
+  width: 70%;
+  margin: auto;
+  border: 2px;
+  border-radius: 2px;
+  font-size: 140%;
+}
