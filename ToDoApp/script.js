@@ -1,13 +1,26 @@
 var obj = []
+var rendered_list = []
 
 $(document).ready(function(){
-  $('ul.taskList').sortable({
-    update: updateStorage
-  });
   //localStorage.clear()
   if(localStorage["task"]) {
+    obj = JSON.parse(localStorage["task"])
+    console.log(obj)
     dumpStorage();
   }
+
+  $('ul.taskList').sortable({
+    create: function(event, ui) {
+      rendered_list = renderedList();
+    },
+    start: function(event, ui) {
+      alertOnChange();
+    },
+    update: function(event, ui) {
+      rendered_list = renderedList();
+      updateStorage();
+    }
+  });
 
   $('input#submit').click(function(){
       var newTask = $('input[name=task]').val();
@@ -25,8 +38,11 @@ $(document).ready(function(){
   });
 
   $(document).on('dblclick', '.taskItem', function(){
+      alertOnChange();
       $(this).remove();
       updateStorage();
+      obj = JSON.parse(localStorage["task"])
+      rendered_list = renderedList();
   });
 });
 
@@ -41,9 +57,11 @@ var removeTags = function(string) {
 var dumpStorage = function() {
   console.log('dump storage');
   $("ul").empty();
+  rendered_list = [];
   var task_arr = JSON.parse(localStorage["task"]);
   for(var i = 0; i < task_arr.length; i++) {
     $('.taskList').append('<li class="taskItem">' + task_arr[i] + '</li>');
+    rendered_list.push(task_arr[i]);
   }
 }
 
@@ -52,3 +70,36 @@ var updateStorage = function() {
   $("li").each(function() { obj.push($(this).text()) });
   localStorage["task"] = JSON.stringify(obj);
 };
+
+var renderedList = function() {
+  new_list = []
+  $("li").each(function() { new_list.push($(this).text()) });
+  return new_list
+}
+
+var alertOnChange = function() {
+  obj = JSON.parse(localStorage["task"])
+  if (!obj.equals(rendered_list)) {
+    alert("The task list has been modified!")
+    dumpStorage();
+  }
+}
+
+Array.prototype.equals = function (array) {
+    if (!array)
+        return false;
+
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l = this.length; i < l; i++) {
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            if (!this[i].equals(array[i]))
+                return false;
+        }
+        else if (this[i] != array[i]) {
+            return false;
+        }
+    }
+    return true;
+}
