@@ -47,7 +47,7 @@ input[type=submit] {
 }
 
 ul{
-  list-style-image: url("images/bullet.png");
+  list-style-image: url("images/bullet-copy.png");
   list-style-position: inside;
 }
 
@@ -58,4 +58,5 @@ ul{
   border: 2px;
   border-radius: 2px;
   font-size: 140%;
+  color: #eee;
 }

@@ -1,29 +1,25 @@
 var obj = []
 
-$(document).one('ready', function () {
-  if(localStorage["task"]) {
-    var task_arr = JSON.parse(localStorage["task"]);
-
-    for(var i = 0; i < task_arr.length; i++) {
-      $('.taskList').append('<li class="taskItem">' + task_arr[i] + '</li>');
-    }
-  }
-});
-
 $(document).ready(function(){
   $('ul.taskList').sortable({
     update: updateStorage
   });
   //localStorage.clear()
+  if(localStorage["task"]) {
+    dumpStorage();
+  }
 
   $('input#submit').click(function(){
       var newTask = $('input[name=task]').val();
       $('input[name=task]').val("");
+      newTask = removeTags(newTask);
+      console.log(newTask);
 
       if(newTask.trim()) {
-        $('.taskList').append('<li class="taskItem">' + newTask + '</li>');
+        obj = JSON.parse(localStorage["task"]);
         obj.push(newTask);
         localStorage["task"] = JSON.stringify(obj);
+        dumpStorage();
       }
       return false;
   });
@@ -34,8 +30,24 @@ $(document).ready(function(){
   });
 });
 
+
+var removeTags = function(string) {
+  //console.log(string)
+  return string.replace(/<[^>]*>/g, ' ')
+               .replace(/\s{2,}/g, ' ')
+               .trim();
+}
+
+var dumpStorage = function() {
+  console.log('dump storage');
+  $("ul").empty();
+  var task_arr = JSON.parse(localStorage["task"]);
+  for(var i = 0; i < task_arr.length; i++) {
+    $('.taskList').append('<li class="taskItem">' + task_arr[i] + '</li>');
+  }
+}
+
 var updateStorage = function() {
-  console.log('update storage');
   obj = [];
   $("li").each(function() { obj.push($(this).text()) });
   localStorage["task"] = JSON.stringify(obj);
