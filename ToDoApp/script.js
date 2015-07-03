@@ -5,7 +5,7 @@ $(document).ready(function(){
   //localStorage.clear()
   if(localStorage["task"]) {
     obj = JSON.parse(localStorage["task"])
-    console.log(obj)
+    //console.log(obj)
     dumpStorage();
   }
 
@@ -26,7 +26,7 @@ $(document).ready(function(){
       var newTask = $('input[name=task]').val();
       $('input[name=task]').val("");
       newTask = removeTags(newTask);
-      console.log(newTask);
+      //console.log(newTask);
 
       if(newTask.trim()) {
         obj = JSON.parse(localStorage["task"]);
@@ -38,11 +38,14 @@ $(document).ready(function(){
   });
 
   $(document).on('dblclick', '.taskItem', function(){
-      alertOnChange();
+    alertOnChange();
+    $(this).wrap("<strike>");
+    $(this).animate({ opacity: 0.1 }, 150, function(){
       $(this).remove();
       updateStorage();
       obj = JSON.parse(localStorage["task"])
       rendered_list = renderedList();
+    });
   });
 });
 
@@ -55,11 +58,12 @@ var removeTags = function(string) {
 }
 
 var dumpStorage = function() {
-  console.log('dump storage');
+  //console.log('dump storage');
   $("ul").empty();
   rendered_list = [];
   var task_arr = JSON.parse(localStorage["task"]);
   for(var i = 0; i < task_arr.length; i++) {
+    //console.log($('<li/>', {'class': 'taskList'}).append(task_arr[i]).text());
     $('.taskList').append('<li class="taskItem">' + task_arr[i] + '</li>');
     rendered_list.push(task_arr[i]);
   }

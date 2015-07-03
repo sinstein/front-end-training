@@ -62,3 +62,7 @@ ul{
 li:hover {
     cursor: move;
 }
+
+strike {
+  color: #eee;
+}
