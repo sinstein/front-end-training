@@ -22,7 +22,7 @@ $(document).ready(function(){
     }
   });
 
-  $('input#submit').click(function(){
+  $('input#submit').click(function(event){
       var newTask = $('input[name=task]').val();
       $('input[name=task]').val("");
       newTask = removeTags(newTask);
@@ -34,7 +34,7 @@ $(document).ready(function(){
         localStorage["task"] = JSON.stringify(obj);
         dumpStorage();
       }
-      return false;
+      event.preventDefault();
   });
 
   $(document).on('dblclick', '.taskItem', function(){
@@ -80,18 +80,20 @@ var renderedList = function() {
 var alertOnChange = function() {
   obj = JSON.parse(localStorage["task"])
   if (!obj.equals(rendered_list)) {
-    alert("The task list has been modified!")
-    dumpStorage();
+    alert("List has been modified!")
+    //refreshing page to restart javscript
+    location.reload();
+    //dumpStorage();
   }
 }
 
 Array.prototype.equals = function (array) {
-    if (!array)
+    if (!array) {
         return false;
-
-    if (this.length != array.length)
+    }
+    if (this.length != array.length) {
         return false;
-
+    }
     for (var i = 0, l = this.length; i < l; i++) {
         if (this[i] instanceof Array && array[i] instanceof Array) {
             if (!this[i].equals(array[i]))
