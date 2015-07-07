@@ -1,7 +1,6 @@
 $(document).ready(function(){
   $("input[name=urlToTest]").addClass("hide_elem");
   $(".ajaxButton").click(function(event){
-    console.log("inside click");
 
     //getJson method
     $.getJSON( "http://www.browserstack.com/list-of-browsers-and-platforms.json?product=live" ,
@@ -13,12 +12,13 @@ $(document).ready(function(){
       var browserVersions = $('<select id="bVersion"/>');
 
       $.each( desktopBrowsers, function( key, val ) {
-        $('<option />', {value: val["os_display_name"], text: val["os_display_name"], class: val["os"] }).appendTo(os);
+        $('<option />', {value: val["os_version"], text: val["os_display_name"], class: val["os"] }).appendTo(os);
       });
       os.appendTo("body");
 
       $("#os").change(function(){
         var value = $('#os :selected').text();
+        var osVersion = $('#os :selected').attr("value");
         var osFamily = $('#os :selected').attr("class");
         var browserList = [];
 
@@ -51,8 +51,23 @@ $(document).ready(function(){
               }
               browserVersions.appendTo("body");
 
-              $()
+              $('input#submit').click(function(event){
+                var newTask = $('input[name=urlToTest]').val();
+                $('input[name=urlToTest]').val("");
 
+                if(newTask.trim()) {
+                  var test_address = "https://www.browserstack.com/start#"
+                                      + "&os=" + osFamily
+                                      + "&os_version=" + osVersion
+                                      + "&browser=" + $('#bNames :selected').text()
+                                      + "&browser_version=" + $('#bVersions :selected').text()
+                                      + "&scale_to_fit=true"
+                                      + "&start=true"
+                                      + "&url=" + newTask;
+                  window.open(test_address);
+                }
+                event.preventDefault();
+              });
             });
             return false;
           }

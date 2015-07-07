@@ -1,14 +1,21 @@
 <html>
 <meta charset="utf-8"></meta>
-<span class = "ajaxButton" id="ajaxButton" style="cursor: pointer; text-decoration: underline">
-  Get list of browsers
-</span>
+<h2>BrowserStack Live!</h2>
 
 <body>
+  <span class = "ajaxButton" id="ajaxButton" style="cursor: pointer; text-decoration: underline">
+    Get list of browsers
+  </span>
+
 </body>
+<form name = "urlForm" id = "urlForm">
+  <input type = "text" placeholder="Enter URL to test" name = "urlToTest" >
+  <input type = "submit" id = "submit" value = "Submit">
+</form>
+
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="script.js"></script>
 <link rel="stylesheet" type="text/css" href="style.css">
-<input class = "hide_elem" type = "text" placeholder="Enter URL to test" name = "urlToTest" >
+
 </html>
