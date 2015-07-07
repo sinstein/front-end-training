@@ -1,0 +1,7 @@
+.hide_elem {
+  display: none;
+}
+
+.show_elem {
+  display: block;
+}
