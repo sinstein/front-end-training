@@ -1,21 +1,26 @@
 <html>
 <meta charset="utf-8"></meta>
-<h2>BrowserStack Live!</h2>
+
+<div class="full-width">
+  <h2>BrowserStack Live!</h2>
+</div>
 
 <body>
-  <span class = "ajaxButton" id="ajaxButton" style="cursor: pointer; text-decoration: underline">
-    Get list of browsers
+  <span class = "loading" id="loading">
+    Getting list of OS & browsers...
   </span>
-
+  <span class = "errors" id ="errors">
+    Please fill all options!
+  </span>
 </body>
+
 <form name = "urlForm" id = "urlForm">
   <input type = "text" placeholder="Enter URL to test" name = "urlToTest" >
   <input type = "submit" id = "submit" value = "Submit">
 </form>
 
-
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="script.js"></script>
-<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
 
 </html>
