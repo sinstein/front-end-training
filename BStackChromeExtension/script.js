@@ -33,13 +33,30 @@ $(document).ready(function(){
           }
           browserNames.insertAfter("#os");
 
+          var browserName = $('#bNames :selected').text();
+          var length = browserList.length;
+
+          browserVersions.empty();
+          for (var i = 0; i < length; i++) {
+            if(browserList[i]["name"] == browserName) {
+              var length2 = browserList[i]["versions"].length;
+              browserList[i]["versions"].sort();
+              //console.log(browserList[i]["versions"]);
+              for(var j = 0; j < length2; j++) {
+                $('<option />', { value: browserList[i]["versions"][j], text: browserList[i]["versions"][j] }).appendTo(browserVersions);
+              }
+              break;
+            }
+          }
+          browserVersions.insertAfter("#bNames");
+
           $("#bNames").change(function(){
-            var value = $('#bNames :selected').text();
+            var browserName = $('#bNames :selected').text();
             var length = browserList.length;
 
             browserVersions.empty();
             for (var i = 0; i < length; i++) {
-              if(browserList[i]["name"] == value) {
+              if(browserList[i]["name"] == browserName) {
                 var length2 = browserList[i]["versions"].length;
                 browserList[i]["versions"].sort();
                 //console.log(browserList[i]["versions"]);
@@ -50,24 +67,22 @@ $(document).ready(function(){
               }
             }
             browserVersions.insertAfter("#bNames");
-            $("#urlForm").show();
-
-            chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
-               // since only one tab should be active and in the current window at once
-               // the return variable should only have one entry
-               var activeTabUrl = arrayOfTabs[0].url;
-               console.log(activeTabUrl);
-               $('input[name=urlToTest]').val(activeTabUrl);
-            });
-
-            $('input#submit').click(function(event){
-              var newTask = $('input[name=urlToTest]').val();
-              $('input[name=urlToTest]').val("");
-              validRequestCheck(osFamily, osVersion, $('#bNames :selected').text(), $('#bNames :selected').text(), newTask.trim());
-              event.preventDefault();
-            });
           });
-          return false;
+
+          $("#urlForm").show();
+
+          chrome.tabs.query({active: true, currentWindow: true}, function(arrayOfTabs) {
+             var activeTabUrl = arrayOfTabs[0].url;
+             console.log(activeTabUrl);
+             $('input[name=urlToTest]').val(activeTabUrl);
+          });
+
+          $('input#submit').click(function(event){
+            var newTask = $('input[name=urlToTest]').val();
+            $('input[name=urlToTest]').val("");
+            validRequestCheck(osFamily, osVersion, $('#bNames :selected').text(), $('#bVersion :selected').text(), newTask.trim());
+            event.preventDefault();
+          });
         }
       });
     });
