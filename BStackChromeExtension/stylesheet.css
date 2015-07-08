@@ -19,7 +19,12 @@ body {
   text-align: center;
 }
 
-.errors {
+.option_errors {
+  color: #FF2400;
+  font-size: 15px;
+}
+
+.url_errors {
   color: #FF2400;
   font-size: 15px;
 }
