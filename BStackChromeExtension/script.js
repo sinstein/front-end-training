@@ -18,7 +18,7 @@ $(document).ready(function(){
     /*
     Preparing list of available Desktop OS
     */
-    $('<option />').appendTo(os);
+    $('<option/>', { disabled: "disabled" , text: "Select OS" }).appendTo(os);
     $.each( desktopBrowsers, function( key, val ) {
       $('<option />', {value: val["os_version"], text: val["os_display_name"], class: val["os"] }).appendTo(os);
     });
@@ -35,6 +35,7 @@ $(document).ready(function(){
       Preparing list of compatible browsers
       */
       browserNames.empty();
+      $('<option/>', { disabled: "disabled" , text: "Select Browser" }).appendTo(browserNames);
       $.each(desktopBrowsers, function(key,val) {
         if(value == val["os_display_name"]) {
           browserList = createSortableList(this["browsers"]);
@@ -52,6 +53,7 @@ $(document).ready(function(){
           If the OS is changed midway, browser versions must be updated
           */
           browserVersions.empty();
+          $('<option/>', { disabled: "disabled" , text: "Select Version" }).appendTo(browserVersions);
           for (var i = 0; i < length; i++) {
             if(browserList[i]["name"] == browserName) {
               var length2 = browserList[i]["versions"].length;
@@ -73,6 +75,7 @@ $(document).ready(function(){
             var length = browserList.length;
 
             browserVersions.empty();
+            $('<option/>', { disabled: "disabled" , text: "Select Version" }).appendTo(browserVersions);
             for (var i = 0; i < length; i++) {
               if(browserList[i]["name"] == browserName) {
                 var length2 = browserList[i]["versions"].length;
@@ -135,7 +138,7 @@ var validRequestCheck = function(os, os_version, browser, browser_version, url) 
                             + "&scale_to_fit=true"
                             + "&start=true"
                             + "&url=" + url;
-        window.open(test_address);
+        window.open(test_address, '', 'fullscreen = yes');
       }
     }
     else {
