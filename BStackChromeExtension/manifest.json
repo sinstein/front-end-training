@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+
+  "name": "BrowserStack Extension",
+  "description": "Run BrowserStack Live testing in one click!",
+  "version": "1.0",
+
+  "permissions": ["tabs","http://*.google.com/", "https://*.google.com/", "https://www.browserstack.com/","http://www.browserstack.com/"],
+
+  "browser_action": {
+    "default_icon": "images/logo.png",
+    "default_popup": "popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["script.js"]
+    }
+  ],
+
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self';  http://www.browserstack.com/list-of-browsers-and-platforms.json?product=live"
+}
