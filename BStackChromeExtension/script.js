@@ -9,7 +9,7 @@ $(document).ready(function(){
   */
   $.getJSON( "http://www.browserstack.com/list-of-browsers-and-platforms.json?product=live" ,
   function( data ) {
-    var desktopBrowsers = data["desktop"];
+    var desktopBrowsers = data.desktop;
 
     var os = $('<select required id="os" class="dropDownList"/>');
     var browserNames = $('<select required id="bNames" class="dropDownList"/>');
@@ -20,7 +20,7 @@ $(document).ready(function(){
     */
     $('<option/>', { disabled: "disabled" , text: "Select OS" }).appendTo(os);
     $.each( desktopBrowsers, function( key, val ) {
-      $('<option />', {value: val["os_version"], text: val["os_display_name"], class: val["os"] }).appendTo(os);
+      $('<option />', {value: val.os_version, text: val.os_display_name, class: val.os }).appendTo(os);
     });
     os.insertBefore("#urlForm");
 
@@ -37,16 +37,15 @@ $(document).ready(function(){
       browserNames.empty();
       $('<option/>', { disabled: "disabled" , text: "Select Browser" }).appendTo(browserNames);
       $.each(desktopBrowsers, function(key,val) {
-        if(value == val["os_display_name"]) {
-          browserList = createSortableList(this["browsers"]);
-          var length = browserList.length
+        if(value == val.os_display_name) {
+          browserList = createSortableList(this.browsers);
+          var length = browserList.length;
           for (var i = 0; i < length; i++) {
-            $('<option />', {value: browserList[i]["name"], text: browserList[i]["name"]}).appendTo(browserNames);
+            $('<option />', {value: browserList[i].name, text: browserList[i].name}).appendTo(browserNames);
           }
           browserNames.insertAfter("#os");
 
           var browserName = $('#bNames :selected').text();
-          var length = browserList.length;
 
           /*
           Preparing list of browser versions
@@ -55,12 +54,12 @@ $(document).ready(function(){
           browserVersions.empty();
           $('<option/>', { disabled: "disabled" , text: "Select Version" }).appendTo(browserVersions);
           for (var i = 0; i < length; i++) {
-            if(browserList[i]["name"] == browserName) {
-              var length2 = browserList[i]["versions"].length;
-              browserList[i]["versions"].sort().reverse();
+            if(browserList[i].name == browserName) {
+              var length2 = browserList[i].versions.length;
+              browserList[i].versions.sort().reverse();
               //console.log(browserList[i]["versions"]);
               for(var j = 0; j < length2; j++) {
-                $('<option />', { value: browserList[i]["versions"][j], text: browserList[i]["versions"][j] }).appendTo(browserVersions);
+                $('<option />', { value: browserList[i].versions[j], text: browserList[i].versions[j] }).appendTo(browserVersions);
               }
               break;
             }
@@ -77,12 +76,12 @@ $(document).ready(function(){
             browserVersions.empty();
             $('<option/>', { disabled: "disabled" , text: "Select Version" }).appendTo(browserVersions);
             for (var i = 0; i < length; i++) {
-              if(browserList[i]["name"] == browserName) {
-                var length2 = browserList[i]["versions"].length;
-                browserList[i]["versions"].sort().reverse();
+              if(browserList[i].name == browserName) {
+                var length2 = browserList[i].versions.length;
+                browserList[i].versions.sort().reverse();
                 //console.log(browserList[i]["versions"]);
                 for(var j = 0; j < length2; j++) {
-                  $('<option />', { value: browserList[i]["versions"][j], text: browserList[i]["versions"][j] }).appendTo(browserVersions);
+                  $('<option />', { value: browserList[i].versions[j], text: browserList[i].versions[j] }).appendTo(browserVersions);
                 }
                 break;
               }
@@ -145,7 +144,7 @@ var validRequestCheck = function(os, os_version, browser, browser_version, url) 
       $(".option_errors").show();
       setTimeout(function() { $(".option_errors").hide(); }, 3000);
     }
-}
+};
 
 /*
 Creates list of browsers for chosen OS
@@ -154,39 +153,39 @@ Sorted to display same order everytime
 var createSortableList = function(compatibleBrowsers) {
   var browserList = [];
   $.each(compatibleBrowsers, function(key, val) {
-    browserIndex = contains(browserList,val["browser"])
+    var browserIndex = contains(browserList,val.browser);
 
     if(browserIndex >= 0) {
-      var temp =  browserList[browserIndex]["versions"]
-      temp.push(val["browser_version"]);
-      browserList[browserIndex]["versions"] = temp;
+      var temp =  browserList[browserIndex].versions;
+      temp.push(val.browser_version);
+      browserList[browserIndex].versions = temp;
     }
     else {
       var temp = {};
-      temp["name"] = val["browser"];
-      temp["versions"] = [val["browser_version"]];
+      temp.name = val.browser;
+      temp.versions = [val.browser_version];
       browserList.push(temp);
     }
   });
-  return browserList.sort().reverse()
-}
+  return browserList.sort().reverse();
+};
 
 var isUrlValid = function(url) {
     if(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(url)) {
-      return true
+      return true;
     }
     else {
       $(".url_errors").show();
       setTimeout(function() { $(".url_errors").hide(); }, 3000);
     }
-}
+};
 
 var contains = function(array_name, value) {
   var length = array_name.length;
   for (var index = 0; index < length; index++) {
-    if(array_name[index]["name"] == value){
+    if(array_name[index].name == value){
       return index;
     }
   }
   return -1;
-}
+};
